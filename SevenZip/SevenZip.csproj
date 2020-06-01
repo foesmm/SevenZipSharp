@@ -55,6 +55,9 @@
     <Content Include="7z64.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="7z.so">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="arch\Test.txt" />
     <Content Include="sfx\Configs.xslt" />
   </ItemGroup>

@@ -45,7 +45,20 @@ namespace SevenZip
 		return null;
 	    }
 
-            return Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), Environment.Is64BitProcess ? "7z64.dll" : "7z.dll");
+#if NETFRAMEWORK
+            if (Platform.OperatingSystem == OperatingSystemType.Windows)
+            {
+#else
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+#endif
+                return Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+                    Environment.Is64BitProcess ? "7z64.dll" : "7z.dll");
+            }
+            else
+            {
+                return Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "7z.so");
+            }
         }
 
         /// <summary>
@@ -348,8 +361,9 @@ namespace SevenZip
                         _inArchives[user][archiveFormat] != null)
                     {
                         try
-                        {                            
-                            Marshal.ReleaseComObject(_inArchives[user][archiveFormat]);
+                        {     
+                            // @fixme: this line crashes on macos
+                            // Marshal.ReleaseComObject(_inArchives[user][archiveFormat]);
                         }
                         catch (InvalidComObjectException) {}
                         _inArchives[user].Remove(archiveFormat);
@@ -369,7 +383,8 @@ namespace SevenZip
                     {
                         try
                         {
-                            Marshal.ReleaseComObject(_outArchives[user][outArchiveFormat]);
+                            // @fixme: this line crashes on macos
+                            // Marshal.ReleaseComObject(_outArchives[user][outArchiveFormat]);
                         }
                         catch (InvalidComObjectException) {}
                         _outArchives[user].Remove(outArchiveFormat);

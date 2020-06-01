@@ -41,7 +41,7 @@
             var sfx = new SevenZipSfx(sfxModule);
             var compressor = new SevenZipCompressor {DirectoryStructure = false};
 
-            compressor.CompressFiles(TemporaryFile, @"TestData\zip.zip");
+            compressor.CompressFiles(TemporaryFile, @"TestData/zip.zip");
 
             sfx.MakeSfx(TemporaryFile, sfxFile);
 
@@ -66,7 +66,7 @@
             using (var output = new FileStream(TemporaryFile, FileMode.Create))
             {
                 var encoder = new LzmaEncodeStream(output);
-                using (var inputSample = new FileStream(@"TestData\zip.zip", FileMode.Open))
+                using (var inputSample = new FileStream(@"TestData/zip.zip", FileMode.Open))
                 {
                     int bufSize = 24576, count;
                     var buf = new byte[bufSize];
